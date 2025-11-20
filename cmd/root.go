@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/tomsobpl/advent-of-code-2015/internal/cli"
 	"github.com/tomsobpl/advent-of-code-2015/internal/cli/day1"
+	"github.com/tomsobpl/advent-of-code-2015/internal/cli/day2"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -35,4 +36,5 @@ func Execute() {
 func init() {
 	rootCmd.PersistentFlags().StringP(cli.FlagInputDataPath, "i", "", "Path to the input data directory")
 	rootCmd.AddCommand(day1.NewCommand("-3", "5"))
+	rootCmd.AddCommand(day2.NewCommand("101", "48"))
 }

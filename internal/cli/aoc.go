@@ -36,7 +36,7 @@ func (t AocTask) checkAndCompute(expectedResult string, computeFunction compute,
 	testDuration := time.Since(start)
 
 	if actualResult == expectedResult {
-		fmt.Printf("Part %d result matches expected result (took %v). Solving live data...\n", part, testDuration)
+		fmt.Printf("Part %d result matches expected result '%s' (took %v). Solving live data...\n", part, expectedResult, testDuration)
 		start := time.Now()
 		result := computeFunction(t.getRawTestInput("live", part))
 		liveDuration := time.Since(start)
@@ -50,8 +50,16 @@ func (t AocTask) checkAndCompute(expectedResult string, computeFunction compute,
 func (t AocTask) getRawTestInput(kind string, part int) string {
 	filePath := fmt.Sprintf("%s/day%d_part%d_%s.txt", t.AocInputDataPath, t.AocDay, part, kind)
 	content, err := os.ReadFile(filePath)
+
+	if err != nil && os.IsNotExist(err) && part == 2 {
+		filePath = fmt.Sprintf("%s/day%d_part%d_%s.txt", t.AocInputDataPath, t.AocDay, 1, kind)
+	}
+
+	content, err = os.ReadFile(filePath)
+
 	if err != nil {
 		panic(err)
 	}
+
 	return strings.TrimSpace(string(content))
 }
