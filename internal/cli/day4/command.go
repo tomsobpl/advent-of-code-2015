@@ -10,8 +10,7 @@ import (
 
 func partOneCompute(input string) string {
 	for i := 1; ; i++ {
-		data := []byte(fmt.Sprintf("%s%d", input, i))
-		hash := md5.Sum(data)
+		hash := md5.Sum([]byte(fmt.Sprintf("%s%d", input, i)))
 		if hash[0] == 0 && hash[1] == 0 && hash[2] < 0x10 {
 			return fmt.Sprint(i)
 		}
@@ -20,8 +19,7 @@ func partOneCompute(input string) string {
 
 func partTwoCompute(input string) string {
 	for i := 1; ; i++ {
-		data := []byte(fmt.Sprintf("%s%d", input, i))
-		hash := md5.Sum(data)
+		hash := md5.Sum([]byte(fmt.Sprintf("%s%d", input, i)))
 		if hash[0] == 0 && hash[1] == 0 && hash[2] == 0 {
 			return fmt.Sprint(i)
 		}
