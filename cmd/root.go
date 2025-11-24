@@ -11,6 +11,7 @@ import (
 	"github.com/tomsobpl/advent-of-code-2015/internal/cli/day1"
 	"github.com/tomsobpl/advent-of-code-2015/internal/cli/day2"
 	"github.com/tomsobpl/advent-of-code-2015/internal/cli/day3"
+	"github.com/tomsobpl/advent-of-code-2015/internal/cli/day4"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -39,4 +40,5 @@ func init() {
 	rootCmd.AddCommand(day1.NewCommand("-3", "5"))
 	rootCmd.AddCommand(day2.NewCommand("101", "48"))
 	rootCmd.AddCommand(day3.NewCommand("2", "11"))
+	rootCmd.AddCommand(day4.NewCommand("609043", "6742839"))
 }
