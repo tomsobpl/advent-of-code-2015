@@ -5,6 +5,10 @@ import (
 	"strings"
 )
 
+func ConvertStringToArrayOfRunes(input string) []rune {
+	return []rune(input)
+}
+
 func ConvertStringToArrayOfStrings(input string) []string {
 	return strings.Split(input, "\n")
 }
