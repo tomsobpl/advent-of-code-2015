@@ -22,3 +22,13 @@ func ConvertArrayOfStringsToArrayOfIntegers(input []string) []int {
 
 	return result
 }
+
+func NewGridOfIntegers(rows int, cols int) [][]int {
+	grid := make([][]int, rows)
+
+	for i := 0; i < rows; i++ {
+		grid[i] = make([]int, cols)
+	}
+
+	return grid
+}

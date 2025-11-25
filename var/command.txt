@@ -1,0 +1,35 @@
+package day
+
+import (
+	"fmt"
+
+	"github.com/spf13/cobra"
+	"github.com/tomsobpl/advent-of-code-2015/internal/cli"
+)
+
+func partOneCompute(input string) string {
+	return fmt.Sprint("TODO")
+}
+
+func partTwoCompute(input string) string {
+	return fmt.Sprint("TODO")
+}
+
+func NewCommand(partOneExpectedResult string, partTwoExpectedResult string) *cobra.Command {
+	tsk := cli.AocTask{
+		AocDay:                 {3},
+		PartOneExpectedResult:  partOneExpectedResult,
+		PartOneComputeFunction: partOneCompute,
+		PartTwoExpectedResult:  partTwoExpectedResult,
+		PartTwoComputeFunction: partTwoCompute,
+	}
+	cmd := &cobra.Command{
+		Use:   "day{3}",
+		Short: "Solves day {3} of the advent of code 2015 (TODO)",
+		Run: func(cmd *cobra.Command, args []string) {
+			tsk.Solve(cmd.Flags().GetString(cli.FlagInputDataPath))
+		},
+	}
+
+	return cmd
+}
