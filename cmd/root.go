@@ -1,6 +1,3 @@
-/*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -12,9 +9,9 @@ import (
 	"github.com/tomsobpl/advent-of-code-2015/internal/cli/day2"
 	"github.com/tomsobpl/advent-of-code-2015/internal/cli/day3"
 	"github.com/tomsobpl/advent-of-code-2015/internal/cli/day4"
+	"github.com/tomsobpl/advent-of-code-2015/internal/cli/day5"
 )
 
-// rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "advent-of-code-2015",
 	Short: "Advent of code 2015 solutions in Go",
@@ -26,8 +23,6 @@ var rootCmd = &cobra.Command{
 	},
 }
 
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	err := rootCmd.Execute()
 	if err != nil {
@@ -41,4 +36,5 @@ func init() {
 	rootCmd.AddCommand(day2.NewCommand("101", "48"))
 	rootCmd.AddCommand(day3.NewCommand("2", "11"))
 	rootCmd.AddCommand(day4.NewCommand("609043", "6742839"))
+	rootCmd.AddCommand(day5.NewCommand("2", "2"))
 }
