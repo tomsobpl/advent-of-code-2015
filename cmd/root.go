@@ -11,7 +11,7 @@ import (
 	"github.com/tomsobpl/advent-of-code-2015/internal/cli/day4"
 	"github.com/tomsobpl/advent-of-code-2015/internal/cli/day5"
 	"github.com/tomsobpl/advent-of-code-2015/internal/cli/day6"
-	day7 "github.com/tomsobpl/advent-of-code-2015/internal/cli/day7"
+	"github.com/tomsobpl/advent-of-code-2015/internal/cli/day7"
 )
 
 var rootCmd = &cobra.Command{

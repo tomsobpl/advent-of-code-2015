@@ -12,7 +12,7 @@ import (
 )
 
 type GateInstruction interface {
-	Execute() int
+	Execute() uint16
 }
 
 type DirectAssignmentInstruction struct {
@@ -20,11 +20,11 @@ type DirectAssignmentInstruction struct {
 	Signal      string
 }
 
-func (i DirectAssignmentInstruction) Compute(signal int) int {
-	return sixteenBitSignal(signal)
+func (i DirectAssignmentInstruction) Compute(signal uint16) uint16 {
+	return signal
 }
 
-func (i DirectAssignmentInstruction) Execute() int {
+func (i DirectAssignmentInstruction) Execute() uint16 {
 	return i.Compute(decodeInputSignal(i.Signal))
 }
 
@@ -34,11 +34,11 @@ type BitwiseAndInstruction struct {
 	SignalRight string
 }
 
-func (i BitwiseAndInstruction) Compute(signalLeft int, signalRight int) int {
-	return sixteenBitSignal(sixteenBitSignal(signalLeft) & sixteenBitSignal(signalRight))
+func (i BitwiseAndInstruction) Compute(signalLeft uint16, signalRight uint16) uint16 {
+	return signalLeft & signalRight
 }
 
-func (i BitwiseAndInstruction) Execute() int {
+func (i BitwiseAndInstruction) Execute() uint16 {
 	return i.Compute(decodeInputSignal(i.SignalLeft), decodeInputSignal(i.SignalRight))
 }
 
@@ -47,11 +47,11 @@ type BitwiseNotInstruction struct {
 	Signal      string
 }
 
-func (i BitwiseNotInstruction) Compute(signal int) int {
-	return sixteenBitSignal(^signal)
+func (i BitwiseNotInstruction) Compute(signal uint16) uint16 {
+	return ^signal
 }
 
-func (i BitwiseNotInstruction) Execute() int {
+func (i BitwiseNotInstruction) Execute() uint16 {
 	return i.Compute(decodeInputSignal(i.Signal))
 }
 
@@ -61,11 +61,11 @@ type BitwiseOrInstruction struct {
 	SignalRight string
 }
 
-func (i BitwiseOrInstruction) Compute(signalLeft int, signalRight int) int {
-	return sixteenBitSignal(sixteenBitSignal(signalLeft) | sixteenBitSignal(signalRight))
+func (i BitwiseOrInstruction) Compute(signalLeft uint16, signalRight uint16) uint16 {
+	return signalLeft | signalRight
 }
 
-func (i BitwiseOrInstruction) Execute() int {
+func (i BitwiseOrInstruction) Execute() uint16 {
 	return i.Compute(decodeInputSignal(i.SignalLeft), decodeInputSignal(i.SignalRight))
 }
 
@@ -75,11 +75,11 @@ type BitshiftLeftInstruction struct {
 	SignalRight string
 }
 
-func (i BitshiftLeftInstruction) Compute(signalLeft int, signalRight int) int {
-	return sixteenBitSignal(sixteenBitSignal(signalLeft) << sixteenBitSignal(signalRight))
+func (i BitshiftLeftInstruction) Compute(signalLeft uint16, signalRight uint16) uint16 {
+	return signalLeft << signalRight
 }
 
-func (i BitshiftLeftInstruction) Execute() int {
+func (i BitshiftLeftInstruction) Execute() uint16 {
 	return i.Compute(decodeInputSignal(i.SignalLeft), decodeInputSignal(i.SignalRight))
 }
 
@@ -89,21 +89,21 @@ type BitshiftRightInstruction struct {
 	SignalRight string
 }
 
-func (i BitshiftRightInstruction) Compute(signalLeft int, signalRight int) int {
-	return sixteenBitSignal(sixteenBitSignal(signalLeft) >> sixteenBitSignal(signalRight))
+func (i BitshiftRightInstruction) Compute(signalLeft uint16, signalRight uint16) uint16 {
+	return signalLeft >> signalRight
 }
 
-func (i BitshiftRightInstruction) Execute() int {
+func (i BitshiftRightInstruction) Execute() uint16 {
 	return i.Compute(decodeInputSignal(i.SignalLeft), decodeInputSignal(i.SignalRight))
 }
 
-func decodeInputSignal(signal string) int {
+func decodeInputSignal(signal string) uint16 {
 	if value, exists := CircuitCache[signal]; exists {
 		return value
 	}
 
 	if i, err := strconv.Atoi(signal); err == nil {
-		return i
+		return uint16(i)
 	}
 
 	CircuitCache[signal] = Circuit[signal].Execute()
@@ -112,7 +112,7 @@ func decodeInputSignal(signal string) int {
 
 var (
 	Circuit                 = make(map[string]GateInstruction)
-	CircuitCache            = make(map[string]int)
+	CircuitCache            = make(map[string]uint16)
 	BinaryGateSignalPattern = regexp.MustCompile(`\w+ (AND|OR|LSHIFT|RSHIFT) \w+`)
 	NotSignalPattern        = regexp.MustCompile(`NOT \w+`)
 )
@@ -169,15 +169,10 @@ func createGateInstruction(instruction string, rawInstruction string) GateInstru
 	}
 }
 
-func sixteenBitSignal(value int) int {
-	if value < 0 {
-		return 65536 + value
-	}
-
-	return value
-}
-
 func partOneCompute(input string) string {
+	Circuit = make(map[string]GateInstruction)
+	CircuitCache = make(map[string]uint16)
+
 	for _, line := range internal.ConvertStringToArrayOfStrings(input) {
 		instruction, wire := decodeInputLine(line)
 		Circuit[wire] = createGateInstruction(instruction, line)
@@ -194,7 +189,7 @@ func partTwoCompute(input string) string {
 	partOneResult := partOneCompute(input)
 
 	Circuit = make(map[string]GateInstruction)
-	CircuitCache = make(map[string]int)
+	CircuitCache = make(map[string]uint16)
 
 	for _, line := range internal.ConvertStringToArrayOfStrings(input) {
 		instruction, wire := decodeInputLine(line)
