@@ -97,6 +97,18 @@ func (i BitshiftRightInstruction) Execute() uint16 {
 	return i.Compute(decodeInputSignal(i.SignalLeft), decodeInputSignal(i.SignalRight))
 }
 
+var (
+	Circuit                 = make(map[string]GateInstruction)
+	CircuitCache            = make(map[string]uint16)
+	BinaryGateSignalPattern = regexp.MustCompile(`\w+ (AND|OR|LSHIFT|RSHIFT) \w+`)
+	NotSignalPattern        = regexp.MustCompile(`NOT \w+`)
+)
+
+func decodeInputLine(line string) (string, string) {
+	parts := strings.Split(line, "->")
+	return strings.TrimSpace(parts[0]), strings.TrimSpace(parts[1])
+}
+
 func decodeInputSignal(signal string) uint16 {
 	if value, exists := CircuitCache[signal]; exists {
 		return value
@@ -108,18 +120,6 @@ func decodeInputSignal(signal string) uint16 {
 
 	CircuitCache[signal] = Circuit[signal].Execute()
 	return CircuitCache[signal]
-}
-
-var (
-	Circuit                 = make(map[string]GateInstruction)
-	CircuitCache            = make(map[string]uint16)
-	BinaryGateSignalPattern = regexp.MustCompile(`\w+ (AND|OR|LSHIFT|RSHIFT) \w+`)
-	NotSignalPattern        = regexp.MustCompile(`NOT \w+`)
-)
-
-func decodeInputLine(line string) (string, string) {
-	parts := strings.Split(line, "->")
-	return strings.TrimSpace(parts[0]), strings.TrimSpace(parts[1])
 }
 
 func createGateInstruction(instruction string, rawInstruction string) GateInstruction {
