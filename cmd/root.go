@@ -11,6 +11,7 @@ import (
 	"github.com/tomsobpl/advent-of-code-2015/internal/cli/day4"
 	"github.com/tomsobpl/advent-of-code-2015/internal/cli/day5"
 	"github.com/tomsobpl/advent-of-code-2015/internal/cli/day6"
+	day7 "github.com/tomsobpl/advent-of-code-2015/internal/cli/day7"
 )
 
 var rootCmd = &cobra.Command{
@@ -39,4 +40,5 @@ func init() {
 	rootCmd.AddCommand(day4.NewCommand("609043", "6742839"))
 	rootCmd.AddCommand(day5.NewCommand("2", "2"))
 	rootCmd.AddCommand(day6.NewCommand("998996", "1001996"))
+	rootCmd.AddCommand(day7.NewCommand("NA", "NA"))
 }
